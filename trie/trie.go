@@ -53,6 +53,9 @@ func (t *Trie) IsEmpty() bool {
 // Time Complexity: O(N), where N = length of the word
 // Space Complexity: O(N), for new nodes if none exist along the path
 func (t *Trie) Insert(word string) {
+	if len(word) == 0 {
+		return
+	}
 	t.mutex.Lock()
 	defer t.mutex.Unlock()
 	current := t.root
@@ -72,6 +75,9 @@ func (t *Trie) Insert(word string) {
 // Returns true if the word is found and is a complete word.
 // Time Complexity: O(N), where N = length of the word
 func (t *Trie) Search(word string) bool {
+	if len(word) == 0 {
+		return false
+	}
 	t.mutex.RLock()
 	defer t.mutex.RUnlock()
 	current := t.root
@@ -88,6 +94,9 @@ func (t *Trie) Search(word string) bool {
 // Returns true if such a prefix exists, even if it is not a complete word.
 // Time Complexity: O(K), where K = length of the prefix
 func (t *Trie) StartsWith(prefix string) bool {
+	if len(prefix) == 0 {
+		return false
+	}
 	t.mutex.RLock()
 	defer t.mutex.RUnlock()
 	current := t.root
@@ -136,6 +145,9 @@ func (t *Trie) findNodeForPrefix(prefix string) *Node {
 // Returns an empty slice if the prefix does not exist.
 // Time Complexity: O(K + M * L), where K = length of prefix, M = number of matching words
 func (t *Trie) GetWordsWithPrefix(prefix string) []string {
+	if len(prefix) == 0 {
+		return nil
+	}
 	t.mutex.RLock()
 	defer t.mutex.RUnlock()
 	var result []string
@@ -152,6 +164,9 @@ func (t *Trie) GetWordsWithPrefix(prefix string) []string {
 // Time Complexity: O(N), where N = length of the word
 // Space Complexity: O(N) for the stack to track nodes
 func (t *Trie) Remove(word string) bool {
+	if len(word) == 0 {
+		return false
+	}
 	t.mutex.Lock()
 	defer t.mutex.Unlock()
 	current := t.root

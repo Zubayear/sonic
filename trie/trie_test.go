@@ -44,7 +44,7 @@ func TestTrieStartsWith(t *testing.T) {
 		{"hero", true},
 		{"her", true},
 		{"ha", false},
-		{"", true},
+		{"", false},
 	}
 
 	for _, tt := range tests {
@@ -140,24 +140,18 @@ func TestTrieSizeAndIsEmpty(t *testing.T) {
 	}
 }
 
-func TestTrieEdgeCases(t *testing.T) {
+func TestTrieEmptyString(t *testing.T) {
 	tr := NewTrie()
-
 	tr.Insert("")
-	if !tr.Search("") {
-		t.Errorf("expected empty string to exist after insertion")
-	}
-	if tr.Size() != 1 {
-		t.Errorf("expected size 1 after inserting empty string, got %d", tr.Size())
-	}
-
-	if !tr.Remove("") {
-		t.Errorf("expected Remove('') to return true")
-	}
-	if tr.Search("") {
-		t.Errorf("empty string should be removed")
-	}
 	if tr.Size() != 0 {
-		t.Errorf("expected size 0 after removing empty string, got %d", tr.Size())
+		t.Errorf("Expected size 0, got %v\n", tr.Size())
+	}
+	result := tr.GetWordsWithPrefix("")
+	if result != nil {
+		t.Errorf("Expected empty slice, got %v\n", len(result))
+	}
+	f := tr.Remove("")
+	if f {
+		t.Errorf("Expected %v, got %v\n", false, f)
 	}
 }
